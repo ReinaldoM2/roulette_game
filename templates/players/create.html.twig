@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<a class="material-symbols-outlined" style="cursor: pointer;" href="/players">
+    arrow_back_ios
+</a>
+{{ form_start(form) }}
+     
+     {{ form_widget(form) }}
+    <button type="submit" class="btn btn-primary">
+        {% if player != '0' %}
+            EDITAR JUGADOR
+        {% else %}
+            CREAR JUGADOR
+        {% endif %}
+    </button>
+{{ form_end(form) }}
+
+{% endblock %}

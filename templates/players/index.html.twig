@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1>Bienvenidos al juego de la ruleta!!</h1>
+        <div class="d-flex p-2 justify-content-between">
+            <div class="col-md-6 p-2 border border-info">
+                <h4>Jugadores Registrados</h3>
+                <div class="d-flex justify-content-end mb-2 px-2">
+                    <a class="material-symbols-outlined mx-3" style="cursor: pointer;" href="/players/create">
+                        person_add
+                    </a>
+                    <a class="material-symbols-outlined" style="cursor: pointer;text-decoration:none;color:red;" href="/game" title="Iniciar Juego">
+                        casino
+                    </a>
+                </div>
+                <table class="table table-sm table-bordered table-striped">
+                    <thead>
+                        <tr class="text-center">
+                            <td class="align-middle">Nombre</td>
+                            <td class="align-middle">Apellido</td>
+                            <td class="align-middle">Edad</td>
+                            <td class="align-middle">E-mail</td>
+                            <td class="align-middle">Balance Económico</td>
+                            <td class="align-middle" colspan="2">Acciones</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for player in players %}
+                        <tr class="text-center">
+                            <td class="align-middle">{{ player.name }}</td>
+                            <td class="align-middle">{{ player.lastName }}</td>
+                            <td class="align-middle">{{ player.age }} Años</td>
+                            <td class="align-middle">{{ player.email }}</td>
+                            <td class="align-middle">${{ player.balance }}</td>
+                            <td class="align-middle">
+                                <a class="material-symbols-outlined" href="/players/edit/{{ player.id }}">
+                                    edit
+                                </a>
+                                <a class="material-symbols-outlined" href="/players/delete/{{ player.id }}">
+                                    delete
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6 p-2 border border-dark">
+                <h4>Premios Anteriores</h4>
+                <table class="table table-sm table-bordered table-striped">
+                    <thead>
+                        <tr class="text-center">
+                            <td>Número</td>
+                            <td>Color</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center">
+                        {% if game_color != 0 %}
+                            <td>{{ game_number }}</td>
+                            {% if game_color == 1 %}
+                                <td>Rojo</td>
+                                {% elseif game_color == 2 %}
+                                    <td>Negro</td>
+                                {% else %}
+                                    <td>Verde</td>
+                            {% endif %}
+                            {% else %}
+                                <td></td>
+                                <td></td>
+                        {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    <script>
+        function iniciarRuleta(){
+            $.ajax({
+                type: "GET",
+                url: "{{ path('app_game') }}",
+                success: function(data) {
+                    window.location.replace("{{ path('app_game_start') }}");
+                }
+            });
+        }
+        setInterval('iniciarRuleta()',60000);
+    </script>
+{% endblock %}
