@@ -48,34 +48,56 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-6 p-2 border border-dark">
-                <h4>Premios Anteriores</h4>
-                <table class="table table-sm table-bordered table-striped">
-                    <thead>
-                        <tr class="text-center">
-                            <td>Número</td>
-                            <td>Color</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center">
-                        {% if game_color != 0 %}
-                            <td>{{ game_number }}</td>
-                            {% if game_color == 1 %}
-                                <td>Rojo</td>
-                                {% elseif game_color == 2 %}
-                                    <td>Negro</td>
-                                {% else %}
-                                    <td>Verde</td>
-                            {% endif %}
-                            {% else %}
-                                <td></td>
-                                <td></td>
-                        {% endif %}
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            {% if game_color != 0 %}
+                <div class="col-md-6 p-2 border border-dark">
+                    <h4>Premios Anteriores</h4>
+                    <table class="table table-sm table-bordered table-striped">
+                        <thead>
+                            <tr class="text-center">
+                                <td>Número</td>
+                                <td>Color</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center">
+                                <td>{{ game_number }}</td>
+                                {% if game_color == 1 %}
+                                    <td>Rojo</td>
+                                    {% elseif game_color == 2 %}
+                                        <td>Negro</td>
+                                    {% else %}
+                                        <td>Verde</td>
+                                {% endif %}
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4>Listado de apuestas</h4>
+                    <table class="table table-sm table-bordered table-striped">
+                        <thead>
+                            <tr class="text-center">
+                                <td>Jugador</td>
+                                <td>Color</td>
+                                <td>Número</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for player in players %}
+                                <tr class="text-center">
+                                    <td>{{ player.name }}</td>
+                                    {% if players_color[loop.index - 1] == 1 %}
+                                        <td>Rojo</td>
+                                    {% elseif players_color[loop.index - 1] == 2 %}
+                                        <td>Negro</td>
+                                    {% else %}
+                                        <td>Verde</td>
+                                    {% endif %}
+                                    <td>{{ players_number[loop.index - 1] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
@@ -90,6 +112,6 @@
                 }
             });
         }
-        setInterval('iniciarRuleta()',60000);
+        setInterval('iniciarRuleta()',180000);
     </script>
 {% endblock %}

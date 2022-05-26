@@ -74,6 +74,7 @@ class GameController extends AbstractController
             array_push($result_number_bet,$bet_number);
         }
         foreach ($valiable_players as $key => $player) {
+            $new_balance = 0;
             if ($game_color === 3 && $result_color_bet[$key] === 3) {
                 if ($game_number === intval($result_number_bet[$key])) {
                     $new_balance = $players_bet[$key] * 15;
@@ -92,7 +93,9 @@ class GameController extends AbstractController
         return $this->render('players/index.html.twig', [
             'players' => $valiable_players,
             'game_number' => $game_number,
-            'game_color' => $game_color
+            'game_color' => $game_color,
+            'players_color' => $result_color_bet,
+            'players_number' => $result_number_bet
         ]);
     }
 }
